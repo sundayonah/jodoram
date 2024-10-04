@@ -9,6 +9,7 @@ import {
 import { Events, EventsSchema } from '@/lib/validation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
 // import { z } from 'zod';
 
 type Country = {
@@ -24,6 +25,7 @@ const EventPage = () => {
    const {
       register,
       handleSubmit,
+      reset,
       formState: { errors },
    } = useForm<Events>({
       resolver: zodResolver(EventsSchema),
@@ -33,8 +35,11 @@ const EventPage = () => {
       console.log(data, 'ui data');
       try {
          await enrolForEvent(data);
+         toast.success('Event created successfully!');
+         reset();
       } catch (error) {
          console.error('Error submitting form:', error);
+         toast.error('Failed to create event. Please try again.');
       } finally {
       }
    };

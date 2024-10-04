@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ContactUsSchema, ContactUsForm } from '@/lib/validation';
 import { submitContactForm } from '@/actions/actions';
+import { toast } from 'react-hot-toast';
 
 const ContactUsPage = () => {
    const {
       register,
       handleSubmit,
+      reset,
       formState: { errors },
    } = useForm<ContactUsForm>({
       resolver: zodResolver(ContactUsSchema),
@@ -17,9 +19,14 @@ const ContactUsPage = () => {
       console.log(data, 'data in ui');
       try {
          const result = await submitContactForm(data);
+         toast.success('Submit successfully!');
+         reset();
+
          console.log(result, 'result');
          //  setFormStatus(result.message);
       } catch {
+         toast.error('Failed to submit the form');
+
          //  setFormStatus('Failed to submit the form.');
       }
    };
