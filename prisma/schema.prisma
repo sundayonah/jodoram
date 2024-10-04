@@ -25,7 +25,7 @@ model Event {
   state          String?
   phone          String?
   exhibitionBoot String?
-  displayTags    String
+  displayTags    String?
   createdAt      DateTime? @default(now())
 }
 

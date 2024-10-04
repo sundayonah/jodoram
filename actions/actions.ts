@@ -1,6 +1,6 @@
 'use server';
 
-import { ContactUsForm, ContactUsSchema, EventsSchema } from '@/lib/validation';
+import { ContactUsSchema, EventsSchema } from '@/lib/validation';
 import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -22,14 +22,14 @@ export const fetchCountries = async () => {
 
 export const fetchStatesByCountry = async (countryCode: string) => {
    const response = await fetch(
-      // `https://wft-geo-db.p.rapidapi.com/v1/geo/countries/${countryCode}/regions`,
-      `http://api.geonames.org/childrenJSON?geonameId=${countryCode}&username=onah`,
+      `https://wft-geo-db.p.rapidapi.com/v1/geo/countries/${countryCode}/regions`,
+      // `http://api.geonames.org/childrenJSON?geonameId=${countryCode}&username=onah`,
       {
-         // headers: {
-         //    'X-RapidAPI-Key':
-         //       'b84e072381mshe14c281e80334f7p19c58fjsna482dd5485a8', // Replace with your API key
-         //    'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
-         // },
+         headers: {
+            'X-RapidAPI-Key':
+               'b84e072381mshe14c281e80334f7p19c58fjsna482dd5485a8', // Replace with your API key
+            'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com',
+         },
       }
    );
 
@@ -44,20 +44,22 @@ export const fetchStatesByCountry = async (countryCode: string) => {
 };
 
 export const enrolForEvent = async (data: z.infer<typeof EventsSchema>) => {
+   console.log(data, 'Server event');
    try {
       // Validate the input data using the Zod schema
       EventsSchema.parse(data);
+      console.log(data, 'Server event after validation');
 
       // Save event data to the database using Prisma
       const newEvent = await prisma.event.create({
          data: {
-            title: data.title ?? '',
+            title: data.title,
             firstname: data.firstname,
             surname: data.surname,
             company: data.company,
             email: data.email,
-            country: data.country, // New field
-            state: data.state, // New field
+            country: data.country,
+            state: data.state,
             phone: data.phone,
             exhibitionBoot: data.exhibitionBoot,
             displayTags: data.displayTags,

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const EventsSchema = z.object({
-   title: z.enum(['Mr', 'Mrs', 'Ms', 'Dr', 'Prof']).optional(),
+   title: z.enum(['Mr', 'Mrs', 'Ms', 'Dr', 'Prof']),
    firstname: z.string().min(2, 'First name is required'),
    surname: z.string().min(2, 'Surname is required'),
    company: z.string().min(2, 'Company or Organization is required'),
@@ -10,7 +10,7 @@ export const EventsSchema = z.object({
    state: z.string().min(1, 'State is required'), // New 'state' field
    phone: z.string().min(10, 'Phone is required'),
    exhibitionBoot: z.enum(['Yes', 'No']),
-   displayTags: z.array(z.string()),
+   displayTags: z.enum(['Yes', 'No']),
    createdAt: z.string().optional(),
 });
 

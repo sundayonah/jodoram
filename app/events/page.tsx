@@ -30,7 +30,7 @@ const EventPage = () => {
    });
 
    const onSubmit = async (data: Events) => {
-      console.log(data, 'data');
+      console.log(data, 'ui data');
       try {
          await enrolForEvent(data);
       } catch (error) {
@@ -225,6 +225,7 @@ const EventPage = () => {
                      {...register('exhibitionBoot')}
                      className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
+                     <option value="">Select</option>
                      <option value="Yes">Yes</option>
                      <option value="No">No</option>
                   </select>
@@ -243,6 +244,7 @@ const EventPage = () => {
                      {...register('displayTags')}
                      className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
+                     <option value="">Select</option>
                      <option value="Yes">Yes</option>
                      <option value="No">No</option>
                   </select>

@@ -10,7 +10,7 @@ CREATE TABLE "Event" (
     "state" TEXT,
     "phone" TEXT,
     "exhibitionBoot" TEXT,
-    "displayTags" TEXT[],
+    "displayTags" TEXT,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
