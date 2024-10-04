@@ -9,7 +9,7 @@ import Image from 'next/image';
 const Header = () => {
    const menuItems = [
       { name: 'Home', url: '/' },
-      { name: 'About Us', url: '/aboutUs' },
+      { name: 'About Us', url: '/about-us' },
       { name: 'Projects', url: '/projects' },
       { name: 'Events', url: '/events' },
       { name: 'Contact Us', url: '/contactUs' },
