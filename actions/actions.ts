@@ -1,3 +1,5 @@
+'use server';
+
 import { ContactUsForm, ContactUsSchema, EventsSchema } from '@/lib/validation';
 import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
@@ -59,7 +61,7 @@ export const enrolForEvent = async (data: z.infer<typeof EventsSchema>) => {
             phone: data.phone,
             exhibitionBoot: data.exhibitionBoot,
             displayTags: data.displayTags,
-            createdAt: data.createdAt || new Date().toISOString(), // Optional field
+            createdAt: data.createdAt || new Date().toISOString(),
          },
       });
 
@@ -77,36 +79,37 @@ export const enrolForEvent = async (data: z.infer<typeof EventsSchema>) => {
    }
 };
 
-export async function submitContactForm(data: ContactUsForm) {
+export const submitContactForm = async (
+   data: z.infer<typeof ContactUsSchema>
+) => {
+   // Validate the input data using the Zod schema
+   ContactUsSchema.parse(data);
 
-  // Validate the input data using the Zod schema
-  ContactUsSchema.parse(data);
+   console.log(data, 'in server');
+   try {
+      // Save form data to the database using Prisma
+      const newContact = await prisma.contact.create({
+         data: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            organization: data.organization,
+            telephone: data.telephone,
+            email: data.email,
+            reason: data.reason,
+            createdAt: new Date().toISOString(), // Optional createdAt field
+         },
+      });
 
-  try {
-    // Save form data to the database using Prisma
-    const newContact = await prisma.contact.create({
-      data: {
-        firstname: data.firstname,
-        lastname: data.lastname,
-        organization: data.organization,
-        telephone: data.telephone,
-        email: data.email,
-        reason: data.reason,
-        createdAt: new Date().toISOString(), // Optional createdAt field
-      },
-    });
+      console.log('New contact submitted:', newContact);
 
-    console.log('New contact submitted:', newContact);
+      // Optionally revalidate any paths using ISR
+      revalidatePath('/contact-us'); // Adjust the path if necessary
 
-    // Optionally revalidate any paths using ISR
-    revalidatePath('/contact-us'); // Adjust the path if necessary
-
-    return { success: true, message: 'Contact form submitted successfully!' };
-  } catch (error) {
-    console.error('Error saving contact form:', error);
-    throw new Error('Failed to submit the contact form');
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
+      return { success: true, message: 'Contact form submitted successfully!' };
+   } catch (error) {
+      console.error('Error saving contact form:', error);
+      throw new Error('Failed to submit the contact form');
+   } finally {
+      await prisma.$disconnect();
+   }
+};

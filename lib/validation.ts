@@ -20,10 +20,8 @@ export const ContactUsSchema = z.object({
    firstname: z.string().min(1, 'First name is required'),
    lastname: z.string().min(1, 'Last name is required'),
    organization: z.string().min(1, 'Organization is required'),
-   telephone: z
-      .string()
-      .min(10, 'Telephone is required')
-      .regex(/^\+?[1-9]\d{1,14}$/, 'Telephone must be valid'),
+   telephone: z.string().min(10, 'Telephone is required'),
+   // .regex(/^\+?[1-9]\d{1,14}$/, 'Telephone must be valid'),
    email: z.string().email('Email must be valid'),
    reason: z
       .string()

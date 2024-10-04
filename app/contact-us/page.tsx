@@ -1,13 +1,10 @@
 'use client';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ContactUsSchema, ContactUsForm } from '@/lib/validation';
 import { submitContactForm } from '@/actions/actions';
 
 const ContactUsPage = () => {
-   const [formStatus, setFormStatus] = useState<string | null>(null);
-
    const {
       register,
       handleSubmit,
@@ -17,18 +14,20 @@ const ContactUsPage = () => {
    });
 
    const onSubmit = async (data: ContactUsForm) => {
+      console.log(data, 'data in ui');
       try {
          const result = await submitContactForm(data);
-         setFormStatus(result.message);
+         console.log(result, 'result');
+         //  setFormStatus(result.message);
       } catch {
-         setFormStatus('Failed to submit the form.');
+         //  setFormStatus('Failed to submit the form.');
       }
    };
 
    return (
-      <div className="max-w-lg mx-auto mt-10 p-8 bg-white shadow-md rounded-lg">
+      <div className="max-w-lg mx-auto md:mt-44 mt-28 p-8 bg-white shadow-md rounded-lg">
          <h1 className="text-2xl font-bold mb-6 text-center">Contact Us</h1>
-         {formStatus && (
+         {/* {formStatus && (
             <p
                className={`text-center mb-6 ${
                   formStatus.includes('success')
@@ -38,8 +37,8 @@ const ContactUsPage = () => {
             >
                {formStatus}
             </p>
-         )}
-         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+         )} */}
+         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
             <div>
                <label className="block text-gray-700">First Name</label>
                <input

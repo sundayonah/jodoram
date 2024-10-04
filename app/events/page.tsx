@@ -64,6 +64,8 @@ const EventPage = () => {
 
    return (
       <div className="mt-44">
+         <h1 className="text-2xl font-bold mb-6 text-center">Create Event</h1>
+
          <form
             onSubmit={handleSubmit(onSubmit)}
             className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg space-y-6"
