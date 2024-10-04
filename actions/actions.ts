@@ -1,4 +1,4 @@
-import { EventsSchema } from '@/lib/validation';
+import { ContactUsForm, ContactUsSchema, EventsSchema } from '@/lib/validation';
 import { PrismaClient } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -76,3 +76,37 @@ export const enrolForEvent = async (data: z.infer<typeof EventsSchema>) => {
       await prisma.$disconnect();
    }
 };
+
+export async function submitContactForm(data: ContactUsForm) {
+
+  // Validate the input data using the Zod schema
+  ContactUsSchema.parse(data);
+
+  try {
+    // Save form data to the database using Prisma
+    const newContact = await prisma.contact.create({
+      data: {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        organization: data.organization,
+        telephone: data.telephone,
+        email: data.email,
+        reason: data.reason,
+        createdAt: new Date().toISOString(), // Optional createdAt field
+      },
+    });
+
+    console.log('New contact submitted:', newContact);
+
+    // Optionally revalidate any paths using ISR
+    revalidatePath('/contact-us'); // Adjust the path if necessary
+
+    return { success: true, message: 'Contact form submitted successfully!' };
+  } catch (error) {
+    console.error('Error saving contact form:', error);
+    throw new Error('Failed to submit the contact form');
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+

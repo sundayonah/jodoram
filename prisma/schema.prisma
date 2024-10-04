@@ -15,16 +15,29 @@ datasource db {
 
 
 model Event {
-  id        Int      @id @default(autoincrement())
-  title    String
-  firstname String
-  surname  String
-  company  String
-  email    String
-  country  String?
-  state    String?
-  phone    String?
+  id             Int      @id @default(autoincrement())
+  title          String
+  firstname      String
+  surname        String
+  company        String
+  email          String
+  country        String?
+  state          String?
+  phone          String?
   exhibitionBoot String?
-  displayTags String[]
-  createdAt DateTime? @default(now())
+  displayTags    String
+  createdAt      DateTime? @default(now())
 }
+
+
+model Contact {
+  id          Int      @id @default(autoincrement())
+  firstname   String
+  lastname    String
+  organization String
+  telephone   String
+  email       String
+  reason      String
+  createdAt   DateTime @default(now())
+}
+

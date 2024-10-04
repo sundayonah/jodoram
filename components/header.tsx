@@ -12,7 +12,7 @@ const Header = () => {
       { name: 'About Us', url: '/about-us' },
       { name: 'Projects', url: '/projects' },
       { name: 'Events', url: '/events' },
-      { name: 'Contact Us', url: '/contactUs' },
+      { name: 'Contact Us', url: '/contact-us' },
    ];
 
    // State to manage the mobile menu visibility

@@ -151,22 +151,6 @@ const EventPage = () => {
                   </p>
                )}
             </div>
-
-            {/* <div>
-               <label className="block text-gray-700 font-semibold">
-                  Location
-               </label>
-               <input
-                  {...register('location')}
-                  className="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-               />
-               {errors.location && (
-                  <p className="text-red-500 text-sm mt-1">
-                     {errors.location.message}
-                  </p>
-               )}
-            </div> */}
-            {/* Country Select */}
             <div>
                <label className="block text-gray-700 font-semibold">
                   Country
