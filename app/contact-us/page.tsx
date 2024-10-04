@@ -4,13 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ContactUsSchema, ContactUsForm } from '@/lib/validation';
 import { submitContactForm } from '@/actions/actions';
 import { toast } from 'react-hot-toast';
+import { Loading } from '@/components/loading';
 
 const ContactUsPage = () => {
    const {
       register,
       handleSubmit,
       reset,
-      formState: { errors },
+      formState: { errors, isSubmitting },
    } = useForm<ContactUsForm>({
       resolver: zodResolver(ContactUsSchema),
    });
@@ -23,28 +24,15 @@ const ContactUsPage = () => {
          reset();
 
          console.log(result, 'result');
-         //  setFormStatus(result.message);
       } catch {
          toast.error('Failed to submit the form');
-
-         //  setFormStatus('Failed to submit the form.');
       }
    };
 
    return (
       <div className="max-w-lg mx-auto md:mt-44 mt-28 p-8 bg-white shadow-md rounded-lg">
          <h1 className="text-2xl font-bold mb-6 text-center">Contact Us</h1>
-         {/* {formStatus && (
-            <p
-               className={`text-center mb-6 ${
-                  formStatus.includes('success')
-                     ? 'text-green-500'
-                     : 'text-red-500'
-               }`}
-            >
-               {formStatus}
-            </p>
-         )} */}
+
          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
             <div>
                <label className="block text-gray-700">First Name</label>
@@ -141,9 +129,10 @@ const ContactUsPage = () => {
 
             <button
                type="submit"
+               disabled={isSubmitting}
                className="w-full py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-               Submit
+               {isSubmitting ? <Loading /> : 'Submit'}
             </button>
          </form>
       </div>

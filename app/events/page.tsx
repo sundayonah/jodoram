@@ -10,6 +10,7 @@ import { Events, EventsSchema } from '@/lib/validation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
+import { Loading } from '@/components/loading';
 // import { z } from 'zod';
 
 type Country = {
@@ -26,7 +27,7 @@ const EventPage = () => {
       register,
       handleSubmit,
       reset,
-      formState: { errors },
+      formState: { errors, isSubmitting },
    } = useForm<Events>({
       resolver: zodResolver(EventsSchema),
    });
@@ -263,9 +264,10 @@ const EventPage = () => {
 
             <button
                type="submit"
+               disabled={isSubmitting}
                className="w-full py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-               Submit
+               {isSubmitting ? <Loading /> : 'Submit'}
             </button>
          </form>
       </div>
